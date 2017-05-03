@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """Point inside polygon
 
 This module demonstrates a function `point_in_polygon`
@@ -53,7 +55,7 @@ def point_inside_poly(point, poly, check_on_boundary=True):
     poly = shapely.geometry.polygon.Polygon(poly)
     inside = poly.contains(point)
     if check_on_boundary:
-        inside = poly.touches(point) or inside
+        inside = inside or poly.touches(point)
     return inside
 
 
