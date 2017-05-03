@@ -22,13 +22,13 @@ class BadValue(Error):
     pass
 
 
-class UnaryOperatorHandler(object):
-    """Unary operator handler
+class OperatorHandler(object):
+    """Base for all operator handlers
 
-    All of the methods may be static also. Depends on requirements.
+       Extend implementing handle_*() method
     """
 
-    def handle(self, op, v):
+    def handle(self, op, *args, **kwargs):
         """Base handler for all other unary operators
 
         Expects operator and value as a string
@@ -36,11 +36,16 @@ class UnaryOperatorHandler(object):
         """
         f = getattr(self, 'handle_{op}'.format(op=op), None)
         if not f:
-            raise BadOperator('Bad unary operator: {}'.format(op))
-        return f(v)
+            raise BadOperator('Bad operator: {}'.format(op))
+        return f(*args, **kwargs)
 
     def operations(self):
         return [v[7:] for v in dir(self) if v.startswith('handle_')]
+
+
+class UnaryOperatorHandler(OperatorHandler):
+    """Unary operator handler
+    """
 
     def handle_sqrt(self, v):
         if v < 0:
@@ -55,20 +60,9 @@ class UnaryOperatorHandler(object):
             raise BadValue('Cannot divide by 0: {}'.format(v))
 
 
-class BinaryOperatorHandler(object):
+class BinaryOperatorHandler(OperatorHandler):
     """Binary operator handler
-
-    Same as Unary, but 2 values
     """
-
-    def handle(self, op, v1, v2):
-        f = getattr(self, 'handle_{op}'.format(op=op), None)
-        if not f:
-            raise BadOperator('Bad binary operator: {}'.format(op))
-        return f(v1, v2)
-
-    def operations(self):
-        return [v[7:] for v in dir(self) if v.startswith('handle_')]
 
     def handle_add(self, v1, v2):
         return v1 + v2
