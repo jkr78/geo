@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """Point inside polygon
 
 This module demonstrates a function `point_in_polygon`
@@ -54,13 +56,14 @@ def point_inside_poly(point, poly, check_on_boundary=True):
     inside = False
     p1 = poly[0]
     for i in range(1, n + 1):
+        p2 = poly[i % n]
+
         if check_on_boundary:
             # check vertex
             if (point.x, point.y) == p1:
                 return True
 
             # check if point is on a boundary
-            p2 = poly[i % n]
             if p1.y == p2.x and p1.y == point.y and \
                point.x > min(p1.x, p2.x) and point.x < max(p1.x, p2.x):
                 return True
