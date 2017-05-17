@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Advanced form</title>
+</head>
+<body>
+  In my life, I used the following web search engines:<br/>
+  <a href="//www.yahoo.com">Yahoo!</a><br/>
+  <a href="//www.altavista.com">AltaVista</a><br/>
+  <a href="//www.google.com">Google</a><br/>
+</body>
+<script>
+var as = document.getElementsByTagName('a');
+for (var i = 0; i < as.length; i++) {
+  as[i].setAttribute('pos', i)
+  as[i].onclick = function(e) {
+    alert(e.target.getAttribute('pos'));
+    return false;
+  }
+}
+</script>
